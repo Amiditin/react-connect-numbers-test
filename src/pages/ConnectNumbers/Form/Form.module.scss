@@ -1,0 +1,30 @@
+@import '../../../scss/_variables.scss';
+
+.questionnaire {
+  .inputs {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-column-gap: 30px;
+    grid-row-gap: 2px;
+
+    @media (max-width: 630px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .title {
+    color: $title;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 34px;
+    margin-bottom: 20px;
+  }
+
+  .mechanic {
+    margin-top: 20px;
+
+    b {
+      font-weight: 700;
+    }
+  }
+}

@@ -1,0 +1,59 @@
+@import '../../../scss/_variables.scss';
+
+$default-white: #ffffff;
+
+.test {
+  border: 2px solid rgba($color: $main-color, $alpha: 0.2);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+
+  .line {
+    display: none;
+    stroke: $main-color;
+    stroke-width: 2px;
+  }
+
+  .lineActive {
+    display: block;
+  }
+
+  .items {
+    display: none;
+  }
+
+
+  .item {
+    cursor: pointer;
+
+    .circle {
+      stroke: $main-color;
+      stroke-width: 2px;
+      fill: $default-white;
+    }
+
+    .number {
+      text-anchor: middle;
+      fill: $main-color;
+    }
+  }
+
+  .itemActive {
+    pointer-events: none;
+
+    .circle {
+      stroke: $main-color;
+      stroke-width: 2px;
+      fill: $main-color;
+    }
+
+    .number {
+      font-weight: bold;
+      fill: $default-white;
+    }
+  }
+}
+
+.started {
+  opacity: 1 !important;
+  pointer-events: all !important;
+}

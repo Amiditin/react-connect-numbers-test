@@ -1,0 +1,142 @@
+@import '../../scss/_variables.scss';
+
+
+%position-absolute-center {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.connectNumbers {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 100px;
+  padding: 0 25px;
+
+  .info {
+    margin-top: 60px;
+
+    @media (max-width: 500px) {
+      margin-top: 30px;
+    }
+
+    .title {
+      position: relative;
+      font-size: 44px;
+      line-height: 58px;
+      font-weight: 700;
+      text-align: center;
+      color: $title;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+
+      @media (max-width: 433px) {
+        font-size: 32px;
+        line-height: 40px;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: #6D7278;
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+      }
+    }
+
+    .subtitle {
+      font-size: 20px;
+      line-height: 28px;
+      text-align: center;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto 45px;
+    }
+
+  }
+}
+
+.displayed {
+  display: flex !important;
+}
+
+.box {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  margin: 30px 0 20px;
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid rgba($color: $main-color, $alpha: 0.2);
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    color: rgba($color: $main-color, $alpha: 0.7);
+    font-weight: 600;
+  }
+
+  .tabs {
+    display: flex;
+  }
+
+  .tab {
+    padding: 5px 14px;
+    border-right: 2px solid rgba($color: $main-color, $alpha: 0.2);
+    border-bottom: 2px solid rgba($color: $main-color, $alpha: 0.2);
+  }
+
+  .tabCompleted {
+    background-color: rgba($color: $main-color, $alpha: 0.1);
+  }
+
+  .tabCurrent {
+    border-bottom: none;
+  }
+
+  .timer {
+    padding: 5px 14px;
+    opacity: 0.9;
+  }
+
+  .submitButton,
+  .startButton {
+    display: none;
+    max-width: 240px;
+    max-height: 50px;
+    justify-content: center;
+    align-items: center;
+    @extend %position-absolute-center;
+  }
+
+  .results {
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    margin: 0 auto;
+    top: 57%;
+    left: 0;
+    right: 0;
+    max-width: 240px;
+  }
+
+  .result {
+    width: 100%;
+    color: rgba($color: $main-color, $alpha: 0.7);
+    font-size: 18px;
+    font-weight: 600;
+
+    span:first-child {
+      margin-right: 16px;
+    }
+  }
+}

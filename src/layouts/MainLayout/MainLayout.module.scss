@@ -1,0 +1,30 @@
+@import '../../scss/_variables.scss';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  background-color: rgba($color: $main-color, $alpha: .2);
+
+  @media (max-width: 500px) {
+    background-color: #FFFFFF;
+  }
+}
+
+.container {
+  width: calc(100vw - 60px);
+  max-width: 1140px;
+  height: 100%;
+  margin: 30px auto;
+  background-color: #FFFFFF;
+  border-radius: 15px;
+  box-shadow: 4px 8px 6px 1px rgba($color: $main-color, $alpha: .1);
+
+  @media (max-width: 500px) {
+    width: auto;
+    margin: 0 auto;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
