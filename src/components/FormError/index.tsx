@@ -3,10 +3,14 @@ import styles from './FormError.module.scss';
 import { FieldError } from 'react-hook-form';
 
 interface FormErrorProps {
-  error: FieldError;
+  error?: FieldError;
 }
 
 export const FormError: React.FC<FormErrorProps> = ({ error }) => {
+  if (!error) {
+    return null;
+  }
+
   return (
     <span className={styles.error}>
       <img src="/images/tool-icons/error.svg" alt="error" />

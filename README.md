@@ -1,3 +1,3 @@
 # 🧪 Connect the Numbers test. 🧪
 
-👀 Демо: https://connect-numbers-test.vercel.app/
+👀 Демо: https://connect-numbers-test.vercel.app

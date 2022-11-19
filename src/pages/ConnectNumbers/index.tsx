@@ -59,7 +59,7 @@ export const ConnectNumbers: React.FC = () => {
   const onSubmitResults: SubmitHandler<IConnectNumbersForm> = (data) => {
     const postData: IPostData = {
       name: data.name,
-      age: +data.age,
+      age: data.age,
       email: data.email,
       phone: Number('7' + data.phone),
       results: tests.map((test) => ({ number: test.number, time: test.time })),

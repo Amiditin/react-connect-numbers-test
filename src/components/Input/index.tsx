@@ -1,37 +1,40 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import styles from './Input.module.scss';
-import { FieldError, FieldValues, Path, RegisterOptions, UseFormRegister } from 'react-hook-form';
-import { FormError } from '../FormError';
 import clsx from 'clsx';
+import { RegisterOptions, useFormContext } from 'react-hook-form';
 
-export interface InputProps<T extends FieldValues>
-  extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+import { FormError } from '../FormError';
+
+import { IConnectNumbersForm } from '../../pages/ConnectNumbers/types';
+
+export interface InputProps extends React.ComponentProps<'input'> {
   className?: string;
   clearButton?: boolean;
-  error?: FieldError;
-  label: Path<T>;
+  label: keyof IConnectNumbersForm;
   labelTag?: React.ReactNode;
-  register: UseFormRegister<T>;
   rules?: RegisterOptions;
 }
 
-export const Input = <T extends FieldValues>(props: InputProps<T>): React.ReactElement => {
+export const Input: React.FC<InputProps> = ({
+  className,
+  clearButton = true,
+  label,
+  labelTag,
+  rules,
+  ...inputProps
+}) => {
   const [value, setValue] = React.useState('');
-
   const {
-    className,
-    clearButton = true,
-    error,
-    label,
-    labelTag,
     register,
-    rules,
-    ...inputReactProps
-  } = props;
+    formState: { errors },
+  } = useFormContext<IConnectNumbersForm>();
 
-  // console.log(label, { label: value });
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (inputProps.type !== 'tel') {
+      setValue(e.target.value);
+      return;
+    }
 
-  const handleChangePhoneInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const autoEnterValueReg = /\+(7|8)\d+$/;
 
     if (autoEnterValueReg.test(e.target.value)) {
@@ -50,40 +53,30 @@ export const Input = <T extends FieldValues>(props: InputProps<T>): React.ReactE
 
   return (
     <div className={styles.inner}>
-      <label className={styles.label} htmlFor={label}>
-        {labelTag}
-      </label>
-      {props.type === 'tel' ? (
-        <div className={styles.phone}>
-          <span className={styles.prefix}>+7</span>
-          <input
-            {...inputReactProps}
-            {...register(label, rules)}
-            className={clsx(styles.input, className)}
-            value={value}
-            onChange={handleChangePhoneInput}
-            id={label}
-          />
-        </div>
-      ) : (
+      {labelTag && (
+        <label className={styles.label} htmlFor={label}>
+          {labelTag}
+        </label>
+      )}
+      <div className={clsx(styles.input, inputProps.type === 'tel' && styles.inputTel)}>
         <input
-          {...inputReactProps}
+          {...inputProps}
           {...register(label, rules)}
-          className={clsx(styles.input, className)}
+          className={className}
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={handleChangeInput}
           id={label}
         />
-      )}
-      {clearButton && value && (
-        <img
-          className={clsx(styles.clearIcon, labelTag && styles.clearIconWithLabel)}
-          src="/images/tool-icons/close.svg"
-          alt="clear"
-          onClick={() => setValue('')}
-        />
-      )}
-      {error && <FormError error={error} />}
+        {clearButton && value && (
+          <img
+            className={styles.clearIcon}
+            src="/images/tool-icons/close.svg"
+            alt="clear"
+            onClick={() => setValue('')}
+          />
+        )}
+        <FormError error={errors[label]} />
+      </div>
     </div>
   );
 };
