@@ -1,11 +1,13 @@
 import React from 'react';
 import styles from './Test.module.scss';
 import clsx from 'clsx';
+
 import { TestStatus } from '../types';
-import { IMatrix } from '../../../utils/constants/matrixDefault/types';
-import { IMatrixItem } from '../../../utils/constants/matrixItemsForTests/types';
+import { IMatrix, IConnectNumbersTest } from '../../../utils/constants/types';
+import { IMatrixItem } from '../../../utils/scripts/types';
+
 import { matrixDefault } from '../../../utils/constants';
-import { IConnectNumbersTest } from '../../../utils/constants/connectNumbersTests/types';
+import { getMatrixItems } from '../../../utils/scripts';
 
 interface TestProps {
   matrixWidth: number;
@@ -23,6 +25,7 @@ export const Test: React.FC<TestProps> = ({
   testStatus,
 }) => {
   const [items, setItems] = React.useState<IMatrixItem[]>([]);
+
   const matrix: IMatrix = React.useMemo((): IMatrix => {
     const initMatrix = {
       width: matrixWidth,
@@ -30,15 +33,19 @@ export const Test: React.FC<TestProps> = ({
       circleRadius: Math.round((matrixDefault.circleRadius * matrixWidth) / matrixDefault.width),
     };
 
-    const initMatrixItems = test.items.map((item) => ({
-      coordinateX:
-        Math.round((item.coordinateX * initMatrix.width) / matrixDefault.width) -
+    const initMatrixItems = getMatrixItems(
+      test.itemsOptions.withLetters,
+      test.itemsOptions.numberItems,
+    ).map((item) => ({
+      coordX:
+        Math.round((item.coordX * initMatrix.width) / matrixDefault.width) -
         initMatrix.circleRadius,
-      coordinateY:
-        Math.round((item.coordinateY * initMatrix.height) / matrixDefault.height) -
+      coordY:
+        Math.round((item.coordY * initMatrix.height) / matrixDefault.height) -
         initMatrix.circleRadius,
       active: item.active,
       number: item.number,
+      text: item.text,
     }));
 
     setItems(initMatrixItems);
@@ -79,15 +86,15 @@ export const Test: React.FC<TestProps> = ({
                 styles.line,
                 getItemByNumber(item.number + 1).active && styles.lineActive,
               )}
-              x1={item.coordinateX + matrix.circleRadius}
-              y1={item.coordinateY + matrix.circleRadius}
-              x2={getItemByNumber(item.number + 1).coordinateX + matrix.circleRadius}
-              y2={getItemByNumber(item.number + 1).coordinateY + matrix.circleRadius}
+              x1={item.coordX + matrix.circleRadius}
+              y1={item.coordY + matrix.circleRadius}
+              x2={getItemByNumber(item.number + 1).coordX + matrix.circleRadius}
+              y2={getItemByNumber(item.number + 1).coordY + matrix.circleRadius}
             />
           )}
           <g
             className={clsx(styles.item, item.active && styles.itemActive)}
-            transform={`matrix(1,0,0,1,${item.coordinateX},${item.coordinateY})`}
+            transform={`matrix(1,0,0,1,${item.coordX},${item.coordY})`}
             onClick={() => handleClickMatrixItem(item.number)}>
             <circle
               className={styles.circle}
@@ -98,9 +105,9 @@ export const Test: React.FC<TestProps> = ({
             <text
               dx={matrix.circleRadius}
               dy={matrix.circleRadius * 1.25}
-              className={styles.number}
+              className={styles.text}
               style={{ fontSize: (matrix.circleRadius / 4) * 3 }}>
-              {item.number}
+              {item.text}
             </text>
           </g>
         </g>
